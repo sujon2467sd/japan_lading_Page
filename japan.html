@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>和・Nihongo Center | master Japanese</title>
+  <!-- Bootstrap 5.3 + icons + swiper (for modern sliders) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Swiper CSS (touch sliders) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <!-- AOS for scroll animations -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <!-- Google fonts: Inter + Noto Sans JP for clean & stylish -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Noto+Sans+JP:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #c44545;      /* modern crimson */
+      --primary-dark: #a12f2f;
+      --gold: #c79a4b;
+      --cream: #fbf7f2;
+      --charcoal: #2a2a2a;
+      --light-gray: #f0ebe6;
+      --swiper-navigation-color: #c44545;
+      --swiper-pagination-color: #c44545;
+    }
+    body {
+      font-family: "Inter", "Noto Sans JP", system-ui, sans-serif;
+      color: var(--charcoal);
+      background-color: #ffffff;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4, h5 {
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    /* modern, sharp navbar */
+    .navbar {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+      padding: 1rem 0;
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #c44545, #a86868);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .navbar .nav-link {
+      font-weight: 500;
+      margin: 0 0.5rem;
+      position: relative;
+      color: var(--charcoal) !important;
+      transition: color 0.2s;
+    }
+    .navbar .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2.5px;
+      bottom: -2px;
+      left: 0.3rem;
+      background: linear-gradient(90deg, var(--primary), var(--gold));
+      transition: width 0.25s ease;
+    }
+    .navbar .nav-link:hover::after,
+    .navbar .nav-link.active::after {
+      width: calc(100% - 0.6rem);
+    }
+    .btn-smart {
+      background: linear-gradient(145deg, var(--primary), #b33b3b);
+      color: white;
+      border: none;
+      border-radius: 40px;
+      padding: 0.6rem 2rem;
+      font-weight: 600;
+      box-shadow: 0 8px 18px rgba(196, 69, 69, 0.25);
+      transition: 0.2s;
+    }
+    .btn-smart:hover {
+      background: linear-gradient(145deg, #b33b3b, #9f2f2f);
+      transform: scale(1.02);
+      box-shadow: 0 12px 24px rgba(196, 69, 69, 0.35);
+      color: white;
+    }
+    .btn-outline-smart {
+      border: 2px solid var(--primary);
+      background: transparent;
+      color: var(--primary);
+      border-radius: 40px;
+      padding: 0.5rem 2rem;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+    .btn-outline-smart:hover {
+      background: var(--primary);
+      color: white;
+    }
+    /* section headers */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .section-header span {
+      background: var(--cream);
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      color: var(--primary);
+      display: inline-block;
+      margin-bottom: 0.75rem;
+      border: 1px solid rgba(196,69,69,0.2);
+    }
+    .section-header h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    /* hero */
+    .hero {
+      padding: 6rem 0 5rem;
+      background: var(--cream);
+      background-image: radial-gradient(circle at 10% 30%, rgba(196,69,69,0.03) 0%, transparent 30%);
+    }
+
+    /* course card – slider card */
+    .course-card {
+      background: white;
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.02);
+      transition: all 0.3s;
+      border: 1px solid rgba(0,0,0,0.03);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .course-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 30px 40px -10px rgba(196,69,69,0.15);
+      border-color: transparent;
+    }
+    .course-img {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .course-tag {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: white;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .course-body {
+      padding: 1.5rem 1.2rem 1.2rem;
+      flex: 1;
+    }
+    .course-body h4 {
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .course-desc {
+      color: #5a5a5a;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+    .course-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .course-price small {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: #999;
+    }
+
+    /* review slider */
+    .review-card-modern {
+      background: white;
+      padding: 2rem 2rem 1.8rem;
+      border-radius: 40px 40px 40px 16px;
+      box-shadow: 0 20px 40px -12px rgba(0,0,0,0.07);
+      border: 1px solid rgba(196,69,69,0.05);
+      transition: 0.2s;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .reviewer-img {
+      width: 52px;
+      height: 52px;
+      border-radius: 100px;
+      object-fit: cover;
+      margin-right: 1rem;
+      border: 2px solid white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .stars {
+      color: #f8b84a;
+      letter-spacing: 3px;
+      font-size: 1.1rem;
+    }
+    .quote-icon {
+      font-size: 2.8rem;
+      color: var(--primary);
+      opacity: 0.2;
+      line-height: 1;
+    }
+
+    /* swiper custom */
+    .swiper {
+      padding: 0.5rem 0.5rem 2.5rem;
+    }
+    .swiper-slide {
+      height: auto;
+    }
+    .swiper-pagination-bullet {
+      width: 10px;
+      height: 10px;
+      background: #d4b5b5;
+      opacity: 1;
+    }
+    .swiper-pagination-bullet-active {
+      background: var(--primary);
+    }
+
+    /* team cards clean */
+    .team-card {
+      background: white;
+      border-radius: 30px;
+      overflow: hidden;
+      border: 1px solid #f0e3dc;
+      transition: 0.2s;
+    }
+    .team-card img {
+      height: 260px;
+      width: 100%;
+      object-fit: cover;
+    }
+    .team-body {
+      padding: 1.5rem 1rem;
+      text-align: center;
+    }
+
+    /* gallery */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+    }
+    .gallery-item {
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 1/1;
+      position: relative;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+      color: white;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.2rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      opacity: 0;
+      transition: 0.3s;
+    }
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    /* footer */
+    footer {
+      background: #181818;
+      color: #aaa;
+    }
+
+    /* contact map */
+    .map-placeholder {
+      background: #e2dad2;
+      border-radius: 30px;
+      height: 200px;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .gallery-grid { grid-template-columns: repeat(2,1fr); }
+      .section-header h2 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- navigation sleek -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#"><i class="fa-regular fa-circle text-danger me-1" style="font-size:1rem;"></i>
+        <img src="images/japan_logo.jpeg" alt="" width="100px" height="70px">
+    
+    </a>
+      <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarMain">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+          <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
+          <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
+          <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="#reviews">Reviews</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item ms-lg-3">
+            <a class="btn btn-smart btn-sm" href="#"><i class="fas fa-pen me-2"></i>Trial</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO home -->
+  <section id="home" class="hero">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6" data-aos="fade-right">
+          <span class="badge bg-white text-dark px-3 py-2 mb-3 border rounded-5" style="font-weight:500;"><i class="fas fa-om text-danger me-2"></i>since 2010 · Kyoto</span>
+          <h1 class="display-4 fw-bold">Your path to<br><span style="color:var(--primary);">fluent Japanese</span></h1>
+          <p class="lead text-secondary">From hiragana to keigo — immersive, small-group lessons with native master instructors. Free cultural workshops.</p>
+          <div class="d-flex flex-wrap gap-3 mt-4">
+            <a href="#courses" class="btn btn-smart btn-lg px-5">explore courses</a>
+            <a href="#contact" class="btn btn-outline-smart btn-lg px-5">chat with us</a>
+          </div>
+          <div class="row mt-5 g-4">
+            <div class="col-4"><i class="fas fa-check-circle text-danger me-1"></i> 15+ years</div>
+            <div class="col-4"><i class="fas fa-check-circle text-danger me-1"></i> 8k+ students</div>
+            <div class="col-4"><i class="fas fa-check-circle text-danger me-1"></i> 6/class</div>
+          </div>
+        </div>
+        <div class="col-lg-6 text-center" data-aos="fade-left">
+          <img src="images/j_banner.jpeg" class="img-fluid rounded-5 shadow" alt="hero">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT minimal -->
+  <section id="about" class="py-5">
+    <div class="container">
+      <div class="section-header">
+        <span>our essence</span>
+        <h2>Language · Culture · Connection</h2>
+      </div>
+      <div class="row align-items-center g-5">
+        <div class="col-md-6">
+          <img src="images/insitute.jpeg" class="img-fluid rounded-4 shadow-lg" alt="about" height="500px">
+        </div>
+        <div class="col-md-6">
+          <h3 class="fw-semibold">Based in the cultural heart of Japan</h3>
+          <p class="text-secondary">Our teachers hold M.A. in linguistics & education. 80% of our learners reach N2/N1 within 2 years, with corporate training options.</p>
+          <div class="row mt-4">
+            <div class="col-6"><i class="fa-regular fa-compass text-danger"></i> Tea ceremony</div>
+            <div class="col-6"><i class="fa-regular fa-scroll text-danger"></i> Calligraphy</div>
+            <div class="col-6 mt-3"><i class="fa-regular fa-flag text-danger"></i> Homestay prep</div>
+            <div class="col-6 mt-3"><i class="fa-regular fa-building text-danger"></i> Business keigo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES slider with image, title, short desc, price -->
+  <section id="courses" class="py-5 bg-light">
+    <div class="container">
+      <div class="section-header">
+        <span>smart learning</span>
+        <h2>Popular courses</h2>
+      </div>
+      <!-- swiper slider for courses -->
+      <div class="swiper courseSwiper">
+        <div class="swiper-wrapper pb-4">
+          <!-- slide 1 -->
+          <div class="swiper-slide">
+            <div class="course-card">
+              <div class="course-img" style="background-image: url('https://placehold.co/600x400/e5cfc2/2a2a2a?text=Hiragana+intro');">
+                <span class="course-tag bg-white">⭐ starter</span>
+              </div>
+              <div class="course-body">
+                <h4>Hiragana / starter</h4>
+                <p class="course-desc">4 weeks · master kana, basic greetings, self-intro.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="course-price">¥8,800 <small>/ term</small></span>
+                  <i class="fa-regular fa-circle-check text-danger fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- slide 2 -->
+          <div class="swiper-slide">
+            <div class="course-card">
+              <div class="course-img" style="background-image: url('https://placehold.co/600x400/dbcbbd/2a2a2a?text=Daily+conversation');">
+                <span class="course-tag bg-white">🗣️ N4-N3</span>
+              </div>
+              <div class="course-body">
+                <h4>Daily conversation</h4>
+                <p class="course-desc">survival Japanese, roleplay, listening drills.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="course-price">¥22,000 <small>/ 8w</small></span>
+                  <i class="fa-regular fa-circle-check text-danger fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- slide 3 -->
+          <div class="swiper-slide">
+            <div class="course-card">
+              <div class="course-img" style="background-image: url('https://placehold.co/600x400/d1bcab/2a2a2a?text=Business+keigo');">
+                <span class="course-tag bg-white">💼 advanced</span>
+              </div>
+              <div class="course-body">
+                <h4>Business Japanese</h4>
+                <p class="course-desc">keigo, e-mail, interview, humble forms.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="course-price">¥32,000 <small>/ 6w</small></span>
+                  <i class="fa-regular fa-circle-check text-danger fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- slide 4 -->
+          <div class="swiper-slide">
+            <div class="course-card">
+              <div class="course-img" style="background-image: url('https://placehold.co/600x400/c6b1a2/2a2a2a?text=Culture+&+literature');">
+                <span class="course-tag bg-white">📖 deep</span>
+              </div>
+              <div class="course-body">
+                <h4>Culture & reading</h4>
+                <p class="course-desc">classic stories, tea ceremony vocab, history.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="course-price">¥18,500 <small>/ 5w</small></span>
+                  <i class="fa-regular fa-circle-check text-danger fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- slide 5 extra -->
+          <div class="swiper-slide">
+            <div class="course-card">
+              <div class="course-img" style="background-image: url('https://placehold.co/600x400/b8a394/2a2a2a?text=JLPT+N2+prep');">
+                <span class="course-tag bg-white">🎯 intensive</span>
+              </div>
+              <div class="course-body">
+                <h4>JLPT N2 bootcamp</h4>
+                <p class="course-desc">grammar, reading, mock exams (12 weeks).</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="course-price">¥48,000 <small>/ term</small></span>
+                  <i class="fa-regular fa-circle-check text-danger fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- navigation + pagination -->
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev d-none d-md-flex"></div>
+        <div class="swiper-button-next d-none d-md-flex"></div>
+      </div>
+      <div class="text-center mt-4"><a href="#" class="btn btn-outline-smart">see all courses <i class="fa-regular fa-arrow-right ms-1"></i></a></div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team" class="py-5">
+    <div class="container">
+      <div class="section-header">
+        <span>Our Team</span>
+        <h2>Meet Our Team</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="team-card">
+            <img src="images/chairmen.jpeg" alt="haruko">
+            <div class="team-body">
+              <h5>Haruko Tanaka</h5>
+              <p class="small text-secondary">M.A. pedagogy · 10yrs</p>
+              <span class="stars">★★★★★</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="team-card">
+            <img src="images/teacher.jpeg" alt="michael">
+            <div class="team-body">
+              <h5>Michael Sato</h5>
+              <p class="small text-secondary">bilingual · business</p>
+              <span class="stars">★★★★★</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="team-card">
+            <img src="images/manager.jpeg" alt="ayano">
+            <div class="team-body">
+              <h5>Ayano Nakamura</h5>
+              <p class="small text-secondary">tea master · kids</p>
+              <span class="stars">★★★★★</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="team-card">
+            <img src="https://placehold.co/400x300/cfb9a9/2a2a2a?text=Kenta+H." alt="kenta">
+            <div class="team-body">
+              <h5>Kenta Hayashi</h5>
+              <p class="small text-secondary">JLPT specialist</p>
+              <span class="stars">★★★★★</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY grid -->
+  <section id="gallery" class="py-5 bg-light">
+    <div class="container">
+      <div class="section-header">
+        <span>snapshots</span>
+        <h2>gallery</h2>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item"><img src="images/banner.jpeg" alt=""><div class="gallery-overlay">calligraphy</div></div>
+        <div class="gallery-item"><img src="images/j_banner.jpeg" alt=""><div class="gallery-overlay">tea ceremony</div></div>
+        <div class="gallery-item"><img src="images/banner.jpeg" alt=""><div class="gallery-overlay">yukata day</div></div>
+        <div class="gallery-item"><img src="images/j_banner.jpeg" alt=""><div class="gallery-overlay">small class</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEW slider (beautiful client reviews) -->
+  <section id="reviews" class="py-5">
+    <div class="container">
+      <div class="section-header">
+        <span>happy learners</span>
+        <h2>reviews</h2>
+      </div>
+      <div class="swiper reviewSwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="review-card-modern">
+              <div class="quote-icon"><i class="fa-solid fa-quote-right"></i></div>
+              <p class="mt-2 fst-italic">“Haruko sensei’s classes are incredibly clear. Reached N5 from zero in 3 months — plus we made mochi together!”</p>
+              <div class="d-flex align-items-center mt-4">
+                <img src="https://placehold.co/60x60/d0c1b2/333?text=Z." class="reviewer-img" alt="zhin">
+                <div><strong>Zhin Li</strong><br><span class="stars">★★★★★</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="review-card-modern">
+              <div class="quote-icon"><i class="fa-solid fa-quote-right"></i></div>
+              <p class="mt-2 fst-italic">“Business course with Michael was game-changer. Mock interviews got me hired at a trading firm in Osaka.”</p>
+              <div class="d-flex align-items-center mt-4">
+                <img src="https://placehold.co/60x60/cbbcad/333?text=Q." class="reviewer-img" alt="qiming">
+                <div><strong>Qiming Wang</strong><br><span class="stars">★★★★★</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="review-card-modern">
+              <div class="quote-icon"><i class="fa-solid fa-quote-right"></i></div>
+              <p class="mt-2 fst-italic">“I love the free study room and calligraphy workshops. Teachers are so patient and the atmosphere is warm.”</p>
+              <div class="d-flex align-items-center mt-4">
+                <img src="https://placehold.co/60x60/d2c1b0/333?text=Y." class="reviewer-img" alt="yi">
+                <div><strong>Yi Zhang</strong><br><span class="stars">★★★★☆</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="review-card-modern">
+              <div class="quote-icon"><i class="fa-solid fa-quote-right"></i></div>
+              <p class="mt-2 fst-italic">“Small class size really forces you to speak. My pronunciation improved drastically in 2 months.”</p>
+              <div class="d-flex align-items-center mt-4">
+                <img src="https://placehold.co/60x60/c9b9a8/333?text=E." class="reviewer-img" alt="emma">
+                <div><strong>Emma G.</strong><br><span class="stars">★★★★★</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev d-none d-md-flex"></div>
+        <div class="swiper-button-next d-none d-md-flex"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT with map -->
+  <section id="contact" class="py-5 bg-light">
+    <div class="container">
+      <div class="row g-5">
+        <div class="col-lg-5">
+          <span class="badge bg-white text-dark border px-3 py-2 mb-3"><i class="fa-regular fa-location-dot text-danger me-1"></i> visit us</span>
+          <h2 class="fw-bold mb-3">Contact</h2>
+          <p class="text-secondary"><i class="fa-regular fa-map-pin text-danger me-2"></i> 604-8000 Kyoto, Nakagyo-ku, Sakura-dori 18</p>
+          <p><i class="fa-regular fa-phone text-danger me-2"></i> +81 (75) 123-4567</p>
+          <p><i class="fa-regular fa-envelope text-danger me-2"></i> info@wa-nihongo.jp</p>
+          <div class="mt-4 rounded-4 overflow-hidden border">
+            <iframe class="w-100" height="200" src="https://www.openstreetmap.org/export/embed.html?bbox=135.7582%2C35.0094%2C135.7622%2C35.0114&amp;layer=mapnik&amp;marker=35.0104%2C135.7602" style="border:0;"></iframe>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <form class="bg-white p-4 p-lg-5 rounded-5 shadow-sm">
+            <div class="row g-4">
+              <div class="col-md-6">
+                <label class="form-label fw500">name</label>
+                <input type="text" class="form-control form-control-lg bg-light border-0" placeholder="Taro Yamada">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw500">email</label>
+                <input type="email" class="form-control form-control-lg bg-light border-0" placeholder="taro@mail.com">
+              </div>
+              <div class="col-12">
+                <label class="form-label fw500">message</label>
+                <textarea rows="4" class="form-control bg-light border-0" placeholder="free trial, level check..."></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-smart w-100 py-3">send message <i class="fa-regular fa-paper-plane ms-2"></i></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4"><h5 class="text-white">和·Nihongo</h5><p class="small">since 2010 · Kyoto</p></div>
+        <div class="col-md-2"><h6>content</h6><ul class="list-unstyled small"><li><a href="#home" class="text-secondary">Home</a></li><li><a href="#about">About</a></li><li><a href="#courses">Courses</a></li></ul></div>
+        <div class="col-md-2"><h6>social</h6> <i class="fa-brands fa-instagram me-2 fs-5"></i><i class="fa-brands fa-x-twitter me-2 fs-5"></i><i class="fa-brands fa-youtube fs-5"></i></div>
+      </div>
+      <hr class="bg-secondary">
+      <p class="small text-center text-secondary">© 2026 Wa Nihongo Center · modern japanese</p>
+    </div>
+  </footer>
+
+  <!-- scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({duration:800,once:true});
+    // course swiper
+    const courseSwiper = new Swiper('.courseSwiper', {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      loop: true,
+      autoplay: { delay: 4000, disableOnInteraction: false },
+      pagination: { el: '.swiper-pagination', clickable: true },
+      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+      breakpoints: {
+        576: { slidesPerView: 2 },
+        992: { slidesPerView: 3 },
+        1200: { slidesPerView: 4 }
+      }
+    });
+    // review swiper
+    const reviewSwiper = new Swiper('.reviewSwiper', {
+      slidesPerView: 1,
+      spaceBetween: 25,
+      loop: true,
+      autoplay: { delay: 5000 },
+      pagination: { el: '.swiper-pagination', clickable: true },
+      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+      breakpoints: {
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 }
+      }
+    });
+    // active link highlight
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      document.querySelectorAll('section[id]').forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        if (scrollY >= sectionTop) current = section.getAttribute('id');
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
